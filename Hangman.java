@@ -160,8 +160,9 @@ public static void display_guesses(ArrayList<Character> guesses,ArrayList<Charac
             missed.add(guess);
 return count;}
     public static boolean gameEnds(int misscnt,int remainingletters,String word){
-    if(misscnt==7)
-    { System.out.println("You Lost. The word is "+word+".");
+    if(misscnt==7){
+    printHangman(misscnt);
+    System.out.println("You Lost. The word is "+word+".");
         return true;}
     if(remainingletters==0){
         System.out.println("You Won. Congratulations! The word is "+word+".");
