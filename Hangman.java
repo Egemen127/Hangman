@@ -3,44 +3,46 @@ import java.util.Scanner;
 
 class Hangman{
 public static void main(String[] args){
+while(true){
+    String word="";
+    try{// I got the wordlist from here https://github.com/Tom25/Hangman/blob/master/wordlist.txt
+    WordList w = new WordList();
+    word = w.getRandomWord();}catch(Exception e){
+        System.out.println("File not found");
+    }
     ArrayList<Character> guess_list = new ArrayList<>();
     ArrayList<Character> made_guesses = new ArrayList<>();
     ArrayList<Character> missed_guesses = new ArrayList<>();
-for(char i='a';i<='z';i++){
-guess_list.add(i);
-}
-
-String word = "disintegrated";
-int remaining_letters = word.length();
-int miss_count=0;
-while(true){
-    printHangman(miss_count);
-    if(miss_count==7){
-        System.out.println("You Lost. The word is "+word+".");
-        break;
+    for(char i='a';i<='z';i++){
+        guess_list.add(i);
     }
-    if(remaining_letters==0){
-        System.out.println("You Won. Congratulations! The word is "+word+".");
+    int remaining_letters = word.length();
+    int miss_count=0;
+    while(!gameEnds(miss_count,remaining_letters,word)){
+        printHangman(miss_count);
+        render_game(word,made_guesses);
+        display_guesses(guess_list,missed_guesses);
+        char guess=get_guess();
+        if(process_guess(guess,guess_list,made_guesses)){
+            int letter = letter_count(guess,word,missed_guesses);
+            if(letter>0){
+                remaining_letters-=letter;
+                System.out.println(remaining_letters);
+            }else
+                miss_count++;
+
+        }}
+    System.out.println("Do you want to play again?(y/n)");
+    char input=get_guess();
+    if(input!='y')
         break;}
-
-    render_game(word,made_guesses);
-    display_guesses(guess_list,missed_guesses);
-char guess=get_guess();
-if(process_guess(guess,guess_list,made_guesses)){
-int letter = letter_count(guess,word,missed_guesses);
-    if(letter>0){
-        remaining_letters-=letter;
-        System.out.println(remaining_letters);
-    }else
-        miss_count++;
-
-}}}
+}
 //gets the char from the user
 public static char get_guess(){
 Scanner s=new Scanner(System.in);
 System.out.println("Enter a letter lowercase.");
             char result = s.next().charAt(0);
-            System.out.println("You Guessed "+result);
+            System.out.println("You Entered "+result);
             return result;
 
 }
@@ -157,4 +159,15 @@ public static void display_guesses(ArrayList<Character> guesses,ArrayList<Charac
         if (count==0)
             missed.add(guess);
 return count;}
+    public static boolean gameEnds(int misscnt,int remainingletters,String word){
+    if(misscnt==7)
+    { System.out.println("You Lost. The word is "+word+".");
+        return true;}
+    if(remainingletters==0){
+        System.out.println("You Won. Congratulations! The word is "+word+".");
+        return true;}
+    else
+        return false;
+
+    }
 }

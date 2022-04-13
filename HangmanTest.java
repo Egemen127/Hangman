@@ -31,4 +31,12 @@ class HangmanTest {
         assertFalse(s.process_guess('a',guess_list,guess_list));
         assertTrue(s.process_guess('k',guess_list,guess_list));
     }
+    @Test
+    void EndGameTest(){
+        var s = new Hangman();
+        assertFalse(s.gameEnds(0,5,"cat"));
+        assertTrue(s.gameEnds(7,2,"cat"));
+        assertTrue(s.gameEnds(4,0,"cat"));
+    }
+
 }
