@@ -25,7 +25,7 @@ public class WordList {
             // Create memory for our list
             dictionary = new ArrayList<String>();
 
-            Scanner sc = new Scanner(new File("C:\\Users\\johng\\OneDrive\\Desktop\\Hangman\\words.txt"));
+            Scanner sc = new Scanner(new File("words.txt"));
 
             int maxlength = 0;
             int count = 0;
